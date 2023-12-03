@@ -4,6 +4,7 @@ const sequelize = require("../db.js");
 
 //Asociaciones
 const Inventario = require("./Inventario.js");
+const Promocion = require("./Promocion.js");
 
 class Producto extends Model {}
 
@@ -31,11 +32,12 @@ Producto.init(
   },
 );
 
-//One-To-One
-Inventario.hasOne(Producto, {
+//Zero or One To One
+Producto.hasMany(Promocion, {
   foreignKey: {
-    name: "ID",
+    name: "PromocionCodigo",
     allowNull: false,
+    onDelete: "CASCADE",
   },
 });
 

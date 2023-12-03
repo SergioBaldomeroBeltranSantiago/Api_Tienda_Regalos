@@ -34,6 +34,33 @@ router.post("/nuevo", async function (req, res, next) {
 
 router.delete("/eliminar", async function (req, res, next) {
   try {
+    //Checamos si existe
+    const inventarioExiste = await Inventario.findByPk(req.body.invID);
+
+    if (inventarioExiste) {
+      //Existe, entonces se elimina
+      await inventarioExiste.destroy();
+      res.status(200).send("Inventario borrado con exito");
+    } else {
+      //No existe
+      res.status(200).send("No se encontro el registro");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/lista", async function (req, res, next) {
+  try {
+    //Se seleccionan todos los registros
+    const listaInventario = await Inventario.findAll();
+    if (listaInventario) {
+      //Hay inventario, se envia
+      res.send(200).send(listaInventario);
+    } else {
+      //No hay inventario, se notifica
+      res.status(200).send("No hay inventario aun en el sistema.");
+    }
   } catch (error) {
     next(error);
   }

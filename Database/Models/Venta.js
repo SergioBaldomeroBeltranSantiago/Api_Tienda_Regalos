@@ -7,7 +7,7 @@ const Producto = require("./Producto.js");
 const Promocion = require("./Promocion.js");
 
 class Venta extends Model {}
-Ventas.init(
+Venta.init(
   {
     ID: {
       type: DataTypes.INTEGER,
@@ -30,7 +30,7 @@ Ventas.init(
 //One or Many to One
 Venta.hasMany(Producto, {
   foreignKey: {
-    name: "Codigo",
+    name: "ProductoCodigo",
     allowNull: false,
   },
 });
@@ -38,7 +38,7 @@ Venta.hasMany(Producto, {
 //Zero or Many to One
 Venta.hasMany(Promocion, {
   foreignKey: {
-    name: "ID",
+    name: "PromocionID",
     allowNull: true,
   },
 });

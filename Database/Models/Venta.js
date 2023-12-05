@@ -24,7 +24,7 @@ Venta.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: "Venta", tableName: "Ventas", timestamp: false },
+  { sequelize, modelName: "Venta", tableName: "Ventas", timestamps: false },
 );
 
 //One or Many to One
@@ -36,9 +36,9 @@ Venta.hasMany(Producto, {
 });
 
 //Zero or Many to One
-Venta.hasMany(Promocion, {
+Venta.belongsTo(Promocion, {
   foreignKey: {
-    name: "PromocionID",
+    name: "ID",
     allowNull: true,
   },
 });

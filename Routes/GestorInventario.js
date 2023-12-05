@@ -26,7 +26,11 @@ router.post("/nuevo", async function (req, res, next) {
       FechaAdquision: req.body.FechaAdquision,
     });
 
-    res.sendStatus(nuevoInventario ? 200 : 404);
+    if (nuevoInventario) {
+      res.status(200).send("Registro creado con exito");
+    } else {
+      res.status(404).send("Error al crear el registro");
+    }
   } catch (error) {
     next(error);
   }

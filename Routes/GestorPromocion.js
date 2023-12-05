@@ -38,8 +38,12 @@ router.delete("/eliminar", async function (req, res, next) {
 
     if (promocionExiste) {
       //Existe, entonces se elimina
-      await promocionExiste.destroy();
-      res.status(200).send("Inventario borrado con exito");
+      const promocionEliminada = await promocionExiste.destroy();
+      if (promocionEliminada) {
+        res.status(200).send("Promocion eliminada con exito");
+      } else {
+        res.status(200).send("Error al eliminar promocion");
+      }
     } else {
       //No existe
       res.status(200).send("No se encontro el registro");

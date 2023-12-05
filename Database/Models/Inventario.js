@@ -33,8 +33,8 @@ Inventario.init(
   },
   {
     sequelize,
-    modelName: "Producto",
-    tableName: "Productos",
+    modelName: "Inventario",
+    tableName: "Inventario",
     timestamps: false,
   },
 );

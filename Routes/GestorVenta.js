@@ -22,11 +22,21 @@ router.post("/nuevo", async function (req, res, next) {
     const nuevaVenta = await Venta.create({
       Total: req.body.Total,
       FechaVenta: Sequelize.NOW,
-      Producto: req.body.Producto,
-      Promocion: req.body.Promocion,
     });
 
-    res.sendStatus(nuevaVenta ? 200 : 404);
+    if (req.body.Producto) {
+      await nuevaVenta.addProductos(req.body.Producto);
+    }
+
+    if (req.body.Promocion) {
+      await nuevaVenta.addPromociones(req.body.Promocion);
+    }
+
+    if (nuevaVenta) {
+      res.status(200).send("Registro creado con exito");
+    } else {
+      res.status(200).send("Error al crear el registro");
+    }
   } catch (error) {
     next(error);
   }
@@ -35,7 +45,9 @@ router.post("/nuevo", async function (req, res, next) {
 router.get("/ticket", async function (req, res, next) {
   try {
     //Checamos si existe
-    const ventaExiste = await Venta.findByPk(req.body.ID);
+    const ventaExiste = await Venta.findByPk(req.query.ID, {
+      include: [Producto, Promocion],
+    });
 
     if (ventaExiste) {
       //Existe, entonces se envia

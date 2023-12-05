@@ -32,12 +32,17 @@ Producto.init(
   },
 );
 
-//Zero or One To One
-Producto.hasMany(Promocion, {
-  foreignKey: {
-    name: "PromocionCodigo",
-    allowNull: false,
-  },
+//One to One
+Producto.belongsTo(Inventario, {
+  foreignKey: "InventarioID",
 });
+
+//Zero to Many
+Producto.hasMany(Promocion, {
+  foreignKey: "ProductoCodigo",
+});
+
+//One to One
+Promocion.belongsTo(Producto, { foreignKey: "Codigo" });
 
 module.exports = Producto;

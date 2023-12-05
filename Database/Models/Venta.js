@@ -27,20 +27,11 @@ Venta.init(
   { sequelize, modelName: "Venta", tableName: "Ventas", timestamps: false },
 );
 
-//One or Many to One
-Venta.hasMany(Producto, {
-  foreignKey: {
-    name: "ProductoCodigo",
-    allowNull: false,
-  },
-});
-
-//Zero or Many to One
-Venta.belongsTo(Promocion, {
-  foreignKey: {
-    name: "ID",
-    allowNull: true,
-  },
+// In Venta Model
+Venta.belongsToMany(Producto, { through: "VentaProducto", as: "productos" });
+Venta.belongsToMany(Promocion, {
+  through: "VentaPromocion",
+  as: "promociones",
 });
 
 module.exports = Venta;

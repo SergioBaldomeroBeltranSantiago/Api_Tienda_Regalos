@@ -56,7 +56,7 @@ router.get("/lista", async function (req, res, next) {
     const listaInventario = await Inventario.findAll();
     if (listaInventario) {
       //Hay inventario, se envia
-      res.send(200).send(listaInventario);
+      res.status(200).send(listaInventario);
     } else {
       //No hay inventario, se notifica
       res.status(200).send("No hay inventario aun en el sistema.");

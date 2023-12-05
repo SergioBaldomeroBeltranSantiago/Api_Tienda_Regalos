@@ -12,11 +12,12 @@ const sequelize = new Sequelize(
     dialectOptions: {
       options: {
         encrypt: true,
-        trustServerCertificate: true,
+        //trustServerCertificate: true,
         cryptoCredentialsDetails: {
           minVersion: "TLSv1",
         },
         instanceName: "sql1",
+        requestedTimeout: 30000,
       },
     },
     server: database_config.host,

@@ -25,7 +25,11 @@ router.post("/nuevo", async function (req, res, next) {
       Codigo: req.body.Producto.Codigo,
     });
 
-    res.sendStatus(nuevaPromocion ? 200 : 404);
+    if (nuevaPromocion) {
+      res.status(200).send("Registro creado con exito");
+    } else {
+      res.status(200).send("Error al crear el registro");
+    }
   } catch (error) {
     next(error);
   }
@@ -42,7 +46,7 @@ router.delete("/eliminar", async function (req, res, next) {
       if (promocionEliminada) {
         res.status(200).send("Promocion eliminada con exito");
       } else {
-        res.status(200).send("Error al eliminar promocion");
+        res.status(200).send("Fallo al eliminar promocion");
       }
     } else {
       //No existe

@@ -21,10 +21,14 @@ router.post("/nuevo", async function (req, res, next) {
   try {
     const nuevoProducto = await Producto.create({
       Precio: req.body.Precio,
-      ID: req.body.Inventario.ID,
+      InventarioID: req.body.Inventario.ID,
     });
 
-    res.sendStatus(nuevaPromocion ? 200 : 404);
+    if (nuevoProducto) {
+      res.status(200).send(nuevoProducto);
+    } else {
+      res.status(200).send("Error al crear el registro del producto");
+    }
   } catch (error) {
     next(error);
   }
@@ -37,8 +41,12 @@ router.delete("/eliminar", async function (req, res, next) {
 
     if (productoExiste) {
       //Existe, entonces se elimina
-      await productoExiste.destroy();
-      res.status(200).send("Inventario borrado con exito");
+      const productoEliminado = await productoExiste.destroy();
+      if (productoEliminado) {
+        res.status(200).send("Producto borrado con exito");
+      } else {
+        res.status(200).send("Error al eliminar el producto");
+      }
     } else {
       //No existe
       res.status(200).send("No se encontro el registro");

@@ -47,7 +47,6 @@ Inventario.hasOne(Producto, {
   foreignKey: {
     name: "InventarioID",
     allowNull: false,
-    onDelete: "CASCADE",
   },
 });
 

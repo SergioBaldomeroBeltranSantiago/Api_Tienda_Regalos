@@ -37,7 +37,6 @@ Producto.hasMany(Promocion, {
   foreignKey: {
     name: "PromocionCodigo",
     allowNull: false,
-    onDelete: "CASCADE",
   },
 });
 

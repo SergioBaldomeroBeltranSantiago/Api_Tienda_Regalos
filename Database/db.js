@@ -7,20 +7,20 @@ const sequelize = new Sequelize(
   database_config.password,
   {
     host: database_config.host,
-    dialect: database_config.dialect,
     port: database_config.port,
+    dialect: "mssql",
+    dialectModule: require("tedious"),
     dialectOptions: {
       options: {
         encrypt: true,
-        //trustServerCertificate: true,
+        trustServerCertificate: true,
         cryptoCredentialsDetails: {
           minVersion: "TLSv1",
         },
-        instanceName: "sql1",
-        requestedTimeout: 30000,
+        connectTimeout: 30000,
+        logging: console.log,
       },
     },
-    server: database_config.host,
   },
 );
 

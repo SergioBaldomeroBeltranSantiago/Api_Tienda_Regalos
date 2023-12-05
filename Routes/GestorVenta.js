@@ -38,7 +38,7 @@ router.get("/ticket", async function (req, res, next) {
     const ventaExiste = await Venta.findByPk(req.body.ID);
 
     if (ventaExiste) {
-      //Existe, entonces se elimina
+      //Existe, entonces se envia
       res.status(200).send(ventaExiste);
     } else {
       //No existe

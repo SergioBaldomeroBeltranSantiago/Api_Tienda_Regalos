@@ -25,9 +25,9 @@ router.post("/nuevo", async function (req, res, next) {
     });
 
     if (nuevoProducto) {
-      res.status(200).send(nuevoProducto);
+      res.status(200).send("Registro creado con exito");
     } else {
-      res.status(200).send("Error al crear el registro del producto");
+      res.status(200).send("Error al crear el registro");
     }
   } catch (error) {
     next(error);

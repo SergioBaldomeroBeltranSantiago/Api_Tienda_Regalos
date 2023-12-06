@@ -57,4 +57,60 @@ router.delete("/eliminar", async function (req, res, next) {
   }
 });
 
+router.put("/actualizar", async function (req, res, next) {
+  try {
+    //Checamos si existe
+    const promocionActualizar = await Promocion.findByPk(req.body.Codigo);
+
+    if (promocionActualizar) {
+      //Existe, entonces se modifica el precio
+      const actTipoDescuento = req.body.nuevoTipoDescuento
+        ? req.body.nuevoTipoDescuento == promocionActualizar.TipoDescuento
+          ? promocionActualizar.TipoDescuento
+          : req.body.TipoDescuento
+        : promocionActualizar.TipoDescuento;
+
+      const actDescuento = req.body.nuevoDescuento
+        ? req.body.nuevoDescuento < 0 ||
+          req.body.nuevoDescuento == promocionActualizar.Descuento
+          ? promocionActualizar.Descuento
+          : req.body.nuevoDescuento
+        : promocionActualizar.Descuento;
+
+      promocionActualizar.set({
+        TipoDescuento: actTipoDescuento,
+        Descuento: actDescuento,
+      });
+
+      const actualizacionExitosa = await promocionActualizar.save();
+      if (actualizacionExitosa) {
+        res.status(200).send("Promocion actualizada con exito");
+      } else {
+        res.status(200).send("Fallo al actualizar la promocion");
+      }
+    } else {
+      //No existe
+      res.status(200).send("No se encontro el registro");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/lista", async function (req, res, next) {
+  try {
+    //Se seleccionan todos los registros
+    const listaPromocion = await Promocion.findAll();
+    if (listaPromocion) {
+      //Hay inventario, se envia
+      res.status(200).send(listaPromocion);
+    } else {
+      //No hay inventario, se notifica
+      res.status(200).send("No hay promociones aun en el sistema.");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

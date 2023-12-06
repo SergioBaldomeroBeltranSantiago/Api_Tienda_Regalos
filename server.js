@@ -7,7 +7,7 @@ const errorHandler = require("./errorHandler.js");
 const sequelize = require("./Database/db.js");
 const GestorInventario = require("./Routes/GestorInventario.js");
 const GestorProducto = require("./Routes/GestorProducto.js");
-const GestorPromocion = require("./Routes/GestorInventario.js");
+const GestorPromocion = require("./Routes/GestorPromocion.js");
 const GestorVenta = require("./Routes/GestorVenta.js");
 
 //Utilidades

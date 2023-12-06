@@ -101,7 +101,7 @@ router.get("/lista", async function (req, res, next) {
   try {
     //Se seleccionan todos los registros
     const listaPromocion = await Promocion.findAll();
-    if (listaPromocion) {
+    if (listaPromocion.length > 0) {
       //Hay inventario, se envia
       res.status(200).send(listaPromocion);
     } else {

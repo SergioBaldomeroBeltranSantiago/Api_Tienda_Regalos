@@ -35,7 +35,6 @@ router.post("/nuevo", async function (req, res, next) {
 
         if (promocionesAplicables.length > 0) {
           //Si hay, se aplican
-          res.send(promocionesAplicables);
         } else {
           //No hay promociones aplicables
           prevTotal = prevTotal + productoExiste.Precio;
@@ -100,7 +99,7 @@ router.get("/lista", async function (req, res, next) {
   try {
     //Se seleccionan todos los registros
     const listaVenta = await Venta.findAll();
-    if (listaVenta) {
+    if (listaVenta.length > 0) {
       //Hay inventario, se envia
       res.status(200).send(listaVenta);
     } else {

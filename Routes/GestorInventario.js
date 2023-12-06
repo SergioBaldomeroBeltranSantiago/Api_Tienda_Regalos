@@ -178,7 +178,7 @@ router.get("/lista", async function (req, res, next) {
   try {
     //Se seleccionan todos los registros
     const listaInventario = await Inventario.findAll();
-    if (listaInventario) {
+    if (listaInventario.length > 0) {
       //Hay inventario, se envia
       res.status(200).send(listaInventario);
     } else {

@@ -94,7 +94,7 @@ router.get("/lista", async function (req, res, next) {
   try {
     //Se seleccionan todos los registros
     const listaProducto = await Producto.findAll();
-    if (listaProducto) {
+    if (listaProducto.length > 0) {
       //Hay inventario, se envia
       res.status(200).send(listaProducto);
     } else {

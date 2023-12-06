@@ -12,17 +12,21 @@ const router = express.Router();
 router.use(cors());
 
 //Middleware
-router.use(express.json({
-  limit: "2mb"
-}));
-router.use(express.urlencoded({
-  extended: true,
-  limit: "2mb"
-}));
+router.use(
+  express.json({
+    limit: "2mb",
+  }),
+);
+router.use(
+  express.urlencoded({
+    extended: true,
+    limit: "2mb",
+  }),
+);
 router.use(errorHandler);
 
 //Peticiones
-router.post("/nuevo", async function(req, res, next) {
+router.post("/nuevo", async function (req, res, next) {
   try {
     const nuevoInventario = await Inventario.create({
       Nombre: req.body.Nombre,
@@ -40,7 +44,7 @@ router.post("/nuevo", async function(req, res, next) {
   }
 });
 
-router.delete("/eliminar", async function(req, res, next) {
+router.delete("/eliminar", async function (req, res, next) {
   try {
     //Checamos si existe
     const inventarioExiste = await Inventario.findByPk(req.body.invID);
@@ -48,9 +52,9 @@ router.delete("/eliminar", async function(req, res, next) {
     if (inventarioExiste) {
       //Existe, entonces se elimina
       const inventarioEliminado = await inventarioExiste.destroy();
-      if(inventarioEliminado){
+      if (inventarioEliminado) {
         res.status(200).send("Inventario borrado con exito");
-      }else{
+      } else {
         res.status(200).send("Fallo al eliminar el inventario");
       }
     } else {
@@ -62,16 +66,26 @@ router.delete("/eliminar", async function(req, res, next) {
   }
 });
 
-router.put("/actualizar", async function(req, res, next) {
+router.put("/actualizar", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventario existe = Inventario.findByPk(req.body.invID);
+    const inventarioExiste = Inventario.findByPk(req.body.invID);
 
     if (inventarioExiste) {
       //Si existe, se checan los valores a actualizar
-      const actNombre = req.body.nuevoNombre ? req.body.nuevoNombre === "" || req.body.nuevoNombre === inventarioExiste.Nombre ? inventarioExiste.Nombre : req.body.nuevoNombre : inventarioExiste.Nombre;
+      const actNombre = req.body.nuevoNombre
+        ? req.body.nuevoNombre === "" ||
+          req.body.nuevoNombre === inventarioExiste.Nombre
+          ? inventarioExiste.Nombre
+          : req.body.nuevoNombre
+        : inventarioExiste.Nombre;
 
-      const actDescripcion = req.body.nuevaDescripcion ? req.body.nuevaDescripcion === "" || req.body.nuevaDescripcion === inventarioExiste.Descripcion ? inventarioExiste.Descripcion : req.body.nuevaDescripcion : inventarioExiste.Descripcion;
+      const actDescripcion = req.body.nuevaDescripcion
+        ? req.body.nuevaDescripcion === "" ||
+          req.body.nuevaDescripcion === inventarioExiste.Descripcion
+          ? inventarioExiste.Descripcion
+          : req.body.nuevaDescripcion
+        : inventarioExiste.Descripcion;
 
       //Se actualizan los valores
       inventarioExiste.set({
@@ -84,26 +98,26 @@ router.put("/actualizar", async function(req, res, next) {
       if (inventarioActualizado) {
         res.status(200).send("Inventario actualizado exitosamente");
       } else {
-        res.status(200).send("Fallo al actualizar el inventario")
+        res.status(200).send("Fallo al actualizar el inventario");
       }
     } else {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
-router.put("/salida", async function(req, res, next) {
+router.put("/salida", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventario existe = Inventario.findByPk(req.body.invID);
+    const inventarioExiste = Inventario.findByPk(req.body.invID);
 
     if (inventarioExiste) {
-
       //Se actualizan los valores
       inventarioExiste.set({
-        CantidadActual: inventarioExiste.CantidadActual - req.body.cantidadVendida,
+        CantidadActual:
+          inventarioExiste.CantidadActual - req.body.cantidadVendida,
       });
 
       const inventarioActualizado = inventarioExiste.save();
@@ -111,17 +125,19 @@ router.put("/salida", async function(req, res, next) {
       if (inventarioActualizado) {
         res.status(200).send("Cantidad de inventario actualizada exitosamente");
       } else {
-        res.status(200).send("Fallo al actualizar las cantidades del inventario")
+        res
+          .status(200)
+          .send("Fallo al actualizar las cantidades del inventario");
       }
     } else {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
-router.get("/lista", async function(req, res, next) {
+router.get("/lista", async function (req, res, next) {
   try {
     //Se seleccionan todos los registros
     const listaInventario = await Inventario.findAll();

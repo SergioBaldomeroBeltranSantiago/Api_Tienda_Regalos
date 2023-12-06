@@ -42,7 +42,4 @@ Producto.hasMany(Promocion, {
   foreignKey: "ProductoCodigo",
 });
 
-//One to One
-Promocion.belongsTo(Producto, { foreignKey: "Codigo" });
-
 module.exports = Producto;

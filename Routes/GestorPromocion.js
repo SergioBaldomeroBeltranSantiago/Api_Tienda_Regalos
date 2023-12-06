@@ -22,7 +22,7 @@ router.post("/nuevo", async function (req, res, next) {
     const nuevaPromocion = await Promocion.create({
       TipoDescuento: req.body.TipoDescuento,
       Descuento: req.body.Descuento,
-      Codigo: req.body.Producto.Codigo,
+      ProductoCodigo: req.body.Producto.Codigo,
     });
 
     if (nuevaPromocion) {
@@ -106,7 +106,7 @@ router.get("/lista", async function (req, res, next) {
       res.status(200).send(listaPromocion);
     } else {
       //No hay inventario, se notifica
-      res.status(200).send("No hay promociones aun en el sistema.");
+      res.status(200).send([]);
     }
   } catch (error) {
     next(error);

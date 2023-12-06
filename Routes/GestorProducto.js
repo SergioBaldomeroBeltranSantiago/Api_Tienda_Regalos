@@ -99,7 +99,7 @@ router.get("/lista", async function (req, res, next) {
       res.status(200).send(listaProducto);
     } else {
       //No hay inventario, se notifica
-      res.status(200).send("No hay productos aun en el sistema.");
+      res.status(200).send([]);
     }
   } catch (error) {
     next(error);

@@ -87,10 +87,18 @@ router.put("/actualizar", async function (req, res, next) {
           : req.body.nuevaDescripcion
         : inventarioExiste.Descripcion;
 
+      const actCantidadActual = req.body.nuevaCantidadActual
+        ? req.body.nuevaCantidadActual > 0 ||
+          req.body.nuevaCantidadActual == inventarioExiste.CantidadActual
+          ? inventarioExiste.CantidadActual
+          : req.body.nuevaCantidadActual
+        : inventarioExiste.CantidadActual;
+
       //Se actualizan los valores
       inventarioExiste.set({
         Nombre: actNombre,
         Descripcion: actDescripcion,
+        CantidadActual: actCantidadActual,
       });
 
       const inventarioActualizado = inventarioExiste.save();
@@ -108,7 +116,7 @@ router.put("/actualizar", async function (req, res, next) {
   }
 });
 
-router.put("/salida", async function (req, res, next) {
+router.put("/cargo", async function (req, res, next) {
   try {
     //Checamos si existe
     const inventarioExiste = Inventario.findByPk(req.body.invID);
@@ -118,6 +126,35 @@ router.put("/salida", async function (req, res, next) {
       inventarioExiste.set({
         CantidadActual:
           inventarioExiste.CantidadActual - req.body.cantidadVendida,
+      });
+
+      const inventarioActualizado = inventarioExiste.save();
+
+      if (inventarioActualizado) {
+        res.status(200).send("Cantidad de inventario actualizada exitosamente");
+      } else {
+        res
+          .status(200)
+          .send("Fallo al actualizar las cantidades del inventario");
+      }
+    } else {
+      res.status(200).send("No se encontro el registro");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/abono", async function (req, res, next) {
+  try {
+    //Checamos si existe
+    const inventarioExiste = Inventario.findByPk(req.body.invID);
+
+    if (inventarioExiste) {
+      //Se actualizan los valores
+      inventarioExiste.set({
+        CantidadActual:
+          inventarioExiste.CantidadActual + req.body.cantidadComprada,
       });
 
       const inventarioActualizado = inventarioExiste.save();

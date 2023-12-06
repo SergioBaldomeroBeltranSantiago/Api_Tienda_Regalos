@@ -6,6 +6,7 @@ const errorHandler = require("../errorHandler.js");
 
 //Modelos
 const Inventario = require("../Database/Models/Inventario.js");
+const Producto = require("../Database/Models/Producto.js");
 
 //Utilidades
 const router = express.Router();
@@ -56,25 +57,49 @@ router.delete("/eliminar", async function (req, res, next) {
   }
 });
 
-router.put("/modificarPrecio", async function (req, res, next) {
+router.put("/actualizar", async function (req, res, next) {
   try {
     //Checamos si existe
     const productoActualizar = await Producto.findByPk(req.body.Codigo);
 
     if (productoActualizar) {
       //Existe, entonces se modifica el precio
+      const actPrecio = req.body.nuevoPrecio
+        ? req.body.nuevoPrecio < 0 ||
+          req.body.nuevoPrecio == productoActualizar.Precio
+          ? productoActualizar.Precio
+          : req.body.nuevoPrecio
+        : productoActualizar.Precio;
+
       productoActualizar.set({
-        Precio: req.body.precioActualizado,
+        Precio: actPrecio,
       });
+
       const actualizacionExitosa = await productoActualizar.save();
       if (actualizacionExitosa) {
-        res.status(200).send("Precio del producto actualizado con exito");
+        res.status(200).send("Producto actualizado con exito");
       } else {
-        res.status(200).send("Fallo al actualizar el precio del producto");
+        res.status(200).send("Fallo al actualizar el producto");
       }
     } else {
       //No existe
       res.status(200).send("No se encontro el registro");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/lista", async function (req, res, next) {
+  try {
+    //Se seleccionan todos los registros
+    const listaProducto = await Producto.findAll();
+    if (listaProducto) {
+      //Hay inventario, se envia
+      res.status(200).send(listaProducto);
+    } else {
+      //No hay inventario, se notifica
+      res.status(200).send("No hay productos aun en el sistema.");
     }
   } catch (error) {
     next(error);

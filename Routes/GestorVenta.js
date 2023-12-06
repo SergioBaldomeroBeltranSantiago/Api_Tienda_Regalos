@@ -21,10 +21,11 @@ router.use(errorHandler);
 //Peticiones
 router.post("/nuevo", async function (req, res, next) {
   try {
-    const ProductosVendidos = req.body.ventaProductos.split("$");
+    const productosVendidos = req.body.ventaProductos.split("$");
+    let promocionesAplicadas = "";
 
     const prevTotal = 0;
-    for (const productoVendido of ProductosVendidos) {
+    for (const productoVendido of productosVendidos) {
       //Obtenemos el producto
       const productoExiste = await Producto.findByPk(productoVendido);
       if (productoExiste) {
@@ -33,16 +34,36 @@ router.post("/nuevo", async function (req, res, next) {
           where: { ProductoCodigo: productoVendido },
         });
 
+        let prevCostoProducto = productoExiste.Precio;
+
         if (promocionesAplicables.length > 0) {
           //Si hay, se aplican
-        } else {
-          //No hay promociones aplicables
-          prevTotal = prevTotal + productoExiste.Precio;
+          for (let i = 0; i < promocionesAplicables.length; i++) {
+            prevCostoProducto = promocionesAplicables[i].TipoDescuento
+              ? prevCostoProducto *
+                ((100 - promocionesAplicables[i].Descuento) / 100)
+              : prevCostoProducto - promocionesAplicables[i].Descuento;
+
+            //Se añade la promocion añadida al arreglo de promociones
+            promocionesAplicadas =
+              promocionesAplicadas + promocionesAplicables[i].ID + "$";
+          }
         }
+
+        //Al final, promociones o no, se suma el costo del producto al costo total
+        prevTotal = prevTotal + prevCostoProducto;
       } else {
         res.status(404).send("Error al encontrar el producto vendido");
       }
     }
+
+    //Una vez hayamos obtenido el costo total, los productos y promociones asociados, se crea la venta
+    const nuevaVenta = Venta.create({
+      Total: prevTotal,
+      FechaVenta: Sequelize.NOW,
+      ProductosVendidos: req.body.ventaProductos,
+      PromocionesAplicadas: promocionesAplicadas,
+    });
 
     if (nuevaVenta) {
       res.status(200).send("Registro creado con exito");

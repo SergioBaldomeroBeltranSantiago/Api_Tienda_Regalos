@@ -2,10 +2,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db.js");
 
-//Asociaciones
-const Producto = require("./Producto.js");
-const Promocion = require("./Promocion.js");
-
 class Venta extends Model {}
 Venta.init(
   {
@@ -23,15 +19,16 @@ Venta.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    ProductosVendidos: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    PromocionesAplicadas: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   },
   { sequelize, modelName: "Venta", tableName: "Ventas", timestamps: false },
 );
-
-// In Venta Model
-Venta.belongsToMany(Producto, { through: "VentaProducto", as: "productos" });
-Venta.belongsToMany(Promocion, {
-  through: "VentaPromocion",
-  as: "promociones",
-});
 
 module.exports = Venta;

@@ -27,6 +27,8 @@ router.post("/nuevo", async function (req, res, next) {
 
     let prevTotal = 0;
     for (const productoVendido of productosVendidos) {
+      //Checamos que productoVendido contenga un codigo
+      if (productoVendido === "") continue;
       //Obtenemos el producto
       const productoExiste = await Producto.findByPk(productoVendido);
       if (productoExiste) {

@@ -24,7 +24,7 @@ router.post("/nuevo", async function (req, res, next) {
     const productosVendidos = req.body.ventaProductos.split("$");
     let promocionesAplicadas = "";
 
-    const prevTotal = 0;
+    let prevTotal = 0;
     for (const productoVendido of productosVendidos) {
       //Obtenemos el producto
       const productoExiste = await Producto.findByPk(productoVendido);

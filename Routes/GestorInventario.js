@@ -47,7 +47,7 @@ router.post("/nuevo", async function (req, res, next) {
 router.delete("/eliminar", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = await Inventario.findByPk(req.body.invID);
+    const inventarioExiste = await Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Existe, entonces se elimina
@@ -69,7 +69,7 @@ router.delete("/eliminar", async function (req, res, next) {
 router.put("/actualizar", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = Inventario.findByPk(req.body.invID);
+    const inventarioExiste = await Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Si existe, se checan los valores a actualizar
@@ -95,13 +95,13 @@ router.put("/actualizar", async function (req, res, next) {
         : inventarioExiste.CantidadActual;
 
       //Se actualizan los valores
-      const inventarioActualizado = inventarioExiste.set({
+      inventarioExiste.set({
         Nombre: actNombre,
         Descripcion: actDescripcion,
         CantidadActual: actCantidadActual,
       });
 
-      inventarioActualizado = inventarioExiste.save();
+      const inventarioActualizado = inventarioExiste.save();
 
       if (inventarioActualizado) {
         res.status(200).send("Inventario actualizado exitosamente");
@@ -119,7 +119,7 @@ router.put("/actualizar", async function (req, res, next) {
 router.put("/cargo", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = Inventario.findByPk(req.body.invID);
+    const inventarioExiste = Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Se actualizan los valores
@@ -148,7 +148,7 @@ router.put("/cargo", async function (req, res, next) {
 router.put("/abono", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = Inventario.findByPk(req.body.invID);
+    const inventarioExiste = Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Se actualizan los valores

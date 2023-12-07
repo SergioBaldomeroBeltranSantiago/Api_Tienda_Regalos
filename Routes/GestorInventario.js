@@ -40,7 +40,7 @@ router.post("/nuevo", async function (req, res, next) {
       res.status(404).send("Error al crear el registro");
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 
@@ -62,7 +62,7 @@ router.delete("/eliminar", async function (req, res, next) {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 
@@ -112,7 +112,7 @@ router.put("/actualizar", async function (req, res, next) {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 
@@ -141,7 +141,7 @@ router.put("/cargo", async function (req, res, next) {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 
@@ -170,7 +170,7 @@ router.put("/abono", async function (req, res, next) {
       res.status(200).send("No se encontro el registro");
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 
@@ -186,7 +186,7 @@ router.get("/lista", async function (req, res, next) {
       res.status(200).send([]);
     }
   } catch (error) {
-    next(error);
+    errorHandler(error);
   }
 });
 

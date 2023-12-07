@@ -60,7 +60,7 @@ router.delete("/eliminar", async function (req, res, next) {
 router.put("/actualizar", async function (req, res, next) {
   try {
     //Checamos si existe
-    const promocionActualizar = await Promocion.findByPk(req.body.Codigo);
+    const promocionActualizar = await Promocion.findByPk(req.body.ID);
 
     if (promocionActualizar) {
       //Existe, entonces se modifica el precio

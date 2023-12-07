@@ -21,6 +21,7 @@ router.use(errorHandler);
 //Peticiones
 router.post("/nuevo", async function (req, res, next) {
   try {
+    console.log(req.body);
     const productosVendidos = req.body.ventaProductos.split("$");
     let promocionesAplicadas = "";
 
@@ -60,7 +61,7 @@ router.post("/nuevo", async function (req, res, next) {
     //Una vez hayamos obtenido el costo total, los productos y promociones asociados, se crea la venta
     const nuevaVenta = Venta.create({
       Total: prevTotal,
-      FechaVenta: Sequelize.NOW,
+      FechaVenta: Date.now(),
       ProductosVendidos: req.body.ventaProductos,
       PromocionesAplicadas: promocionesAplicadas,
     });

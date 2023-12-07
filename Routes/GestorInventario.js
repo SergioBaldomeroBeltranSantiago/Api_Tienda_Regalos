@@ -119,7 +119,7 @@ router.put("/actualizar", async function (req, res, next) {
 router.put("/cargo", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = Inventario.findByPk(req.body.ID);
+    const inventarioExiste = await Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Se actualizan los valores
@@ -148,7 +148,7 @@ router.put("/cargo", async function (req, res, next) {
 router.put("/abono", async function (req, res, next) {
   try {
     //Checamos si existe
-    const inventarioExiste = Inventario.findByPk(req.body.ID);
+    const inventarioExiste = await Inventario.findByPk(req.body.ID);
 
     if (inventarioExiste) {
       //Se actualizan los valores

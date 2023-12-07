@@ -95,13 +95,13 @@ router.put("/actualizar", async function (req, res, next) {
         : inventarioExiste.CantidadActual;
 
       //Se actualizan los valores
-      inventarioExiste.set({
+      const inventarioActualizado = inventarioExiste.set({
         Nombre: actNombre,
         Descripcion: actDescripcion,
         CantidadActual: actCantidadActual,
       });
 
-      const inventarioActualizado = inventarioExiste.save();
+      inventarioActualizado = inventarioExiste.save();
 
       if (inventarioActualizado) {
         res.status(200).send("Inventario actualizado exitosamente");

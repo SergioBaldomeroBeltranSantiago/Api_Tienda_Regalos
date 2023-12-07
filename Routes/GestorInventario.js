@@ -101,7 +101,7 @@ router.put("/actualizar", async function (req, res, next) {
         CantidadActual: actCantidadActual,
       });
 
-      const inventarioActualizado = inventarioExiste.save();
+      const inventarioActualizado = await inventarioExiste.save();
 
       if (inventarioActualizado) {
         res.status(200).send("Inventario actualizado exitosamente");
@@ -128,7 +128,7 @@ router.put("/cargo", async function (req, res, next) {
           inventarioExiste.CantidadActual - req.body.cantidadVendida,
       });
 
-      const inventarioActualizado = inventarioExiste.save();
+      const inventarioActualizado = await inventarioExiste.save();
 
       if (inventarioActualizado) {
         res.status(200).send("Cantidad de inventario actualizada exitosamente");
@@ -157,7 +157,7 @@ router.put("/abono", async function (req, res, next) {
           inventarioExiste.CantidadActual + req.body.cantidadComprada,
       });
 
-      const inventarioActualizado = inventarioExiste.save();
+      const inventarioActualizado = await inventarioExiste.save();
 
       if (inventarioActualizado) {
         res.status(200).send("Cantidad de inventario actualizada exitosamente");

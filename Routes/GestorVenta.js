@@ -59,7 +59,7 @@ router.post("/nuevo", async function (req, res, next) {
     }
 
     //Una vez hayamos obtenido el costo total, los productos y promociones asociados, se crea la venta
-    const nuevaVenta = Venta.create({
+    const nuevaVenta = await Venta.create({
       Total: prevTotal,
       FechaVenta: Date.now(),
       ProductosVendidos: req.body.ventaProductos,

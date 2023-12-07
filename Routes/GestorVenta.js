@@ -66,7 +66,7 @@ router.post("/nuevo", async function (req, res, next) {
     });
 
     if (nuevaVenta) {
-      res.status(200).send("Registro creado con exito");
+      res.status(200).send(nuevaVenta);
     } else {
       res.status(200).send("Error al crear el registro");
     }
